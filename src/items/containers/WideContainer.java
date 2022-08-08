@@ -6,18 +6,29 @@ import exceptions.ItemAlreadyPlacedException;
 import exceptions.ItemStoreException;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class WideContainer extends Container {
-    private static final String defColor = "grey";
-    private static final double maxWeight = 50.0;
+    private static final String defColor = "Grey";
+    private final double maxWeight;
 
-    protected WideContainer(String name, double weight, int size, Shape shape) {
+    protected WideContainer(String name, double maxWeight, double weight, int size, Shape shape) {
         super(name, weight, size, shape, defColor);
+        this.maxWeight = maxWeight;
         itemList = new ArrayList<>();
     }
 
+    protected WideContainer(String name, double weight, int size, Shape shape) {
+        super(name, weight, size, shape, defColor);
+        this.maxWeight = 50;
+        itemList = new ArrayList<>();
+    }
+
+
     @Override
     protected boolean addItem(Item item) throws ItemStoreException, ItemAlreadyPlacedException {
+        if (item == this) throw new ItemStoreException("Container cannot be placed inside itself");
+
         if (item.isPlaced()) throw new ItemAlreadyPlacedException("Can't add item, because it is already placed somewhere");
 
         if ((weight + item.getWeight()) < maxWeight) {
@@ -30,10 +41,14 @@ public class WideContainer extends Container {
     }
 
     @Override
-    protected Item getItem() {
-        int randomIndex = (int) (Math.random() * itemList.size()-1);
+    protected Item getItem() throws ItemStoreException {
+        if (itemList.size() == 0) throw new ItemStoreException("Container is empty");
+
+        int randomIndex = new Random().nextInt(itemList.size());
         Item item = itemList.get(randomIndex);
+        itemList.remove(randomIndex);
         item.setPlaced(false);
+
         return item;
     }
 
@@ -46,4 +61,8 @@ public class WideContainer extends Container {
         return -1;
     }
 
+    @Override
+    protected void clearContainer() {
+        super.clearContainer();
+    }
 }

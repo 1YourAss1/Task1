@@ -4,7 +4,7 @@ package items;
 import java.util.Random;
 
 public class Brick extends SimpleItem {
-    private static final Shape defShape = Shape.FLAT;
+    private static final Shape defShape = Shape.SQUARE;
     private static final int defSize = 2;
     private static final String defColor = "Red";
 
