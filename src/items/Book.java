@@ -1,5 +1,7 @@
 package items;
 
+import java.util.Random;
+
 public class Book extends SimpleItem {
     private static final Shape defShape = Shape.FLAT;
     private static final String defColor = "white";
@@ -8,7 +10,14 @@ public class Book extends SimpleItem {
         super(name, weight, size, defShape, defColor);
     }
 
-    public static Book createRandomBook(String name) {
-        return new Book(name, Math.random() * 10, (int) (Math.random() * 5) + 1);
+    public static Brick createRandomWeightBook(String name) {
+        double randId = new Random().nextDouble() * 10;
+        return new Brick(name, randId);
+    }
+
+    // For test
+    public static Brick createRandomWeightBook(String name, int seed) {
+        double randId = new Random(seed).nextDouble() * 10;
+        return new Brick(name, randId);
     }
 }

@@ -54,9 +54,6 @@ public abstract class Item {
         this.placed = placed;
     }
 
-
-
-
     @Override
     public String toString() {
         return String.format("[Name:%s][Weight:%.3f][Size:%d][Shape:%s][Color:%s]\n", name, weight, size, shape.label, color);
