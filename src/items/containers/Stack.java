@@ -35,7 +35,9 @@ public class Stack extends Container {
     }
 
     @Override
-    public Item getItem() {
+    public Item getItem() throws ItemStoreException {
+        if (itemList.size() == 0) throw new ItemStoreException("Container is empty");
+
         Item item = itemList.get(0);
         itemList.remove(0);
         item.setPlaced(false);

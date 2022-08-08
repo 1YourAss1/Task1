@@ -68,6 +68,8 @@ public class ComplexTest {
     public void getItemTest() throws ItemAlreadyPlacedException, ItemStoreException {
         // Try to get item from empty container
         assertThrows(ItemStoreException.class, () -> bag.getItem());
+        assertThrows(ItemStoreException.class, () -> box.getItem());
+        assertThrows(ItemStoreException.class, () -> stack.getItem());
         // Get item from wide container
         bag.addItem(brick);
         bag.addItem(ball);
@@ -84,6 +86,14 @@ public class ComplexTest {
         stack.addItem(book);
         stack.addItem(box);
         assertSame(stack.getItem(), box);
+    }
+
+    @Test
+    public void findItemByNameTest() throws ItemAlreadyPlacedException, ItemStoreException {
+        bag.addItem(brick);
+        bag.addItem(ball);
+        bag.addItem(book);
+        assertEquals(2, bag.findItemByName("book"));
     }
 
 }
