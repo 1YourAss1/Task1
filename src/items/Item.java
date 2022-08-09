@@ -1,13 +1,14 @@
 package items;
 
 
+import items.containers.Container;
+
 public abstract class Item {
     private final String name;
     protected final double weight; // >0
     protected int size; // 1-5
     private final Shape shape;
     private final String color;
-
     private boolean placed;
 
     protected Item(String name, double weight, int size, Shape shape, String color) {
@@ -56,7 +57,7 @@ public abstract class Item {
 
     @Override
     public String toString() {
-        return String.format("[Name:%s][Weight:%.3f][Size:%d][Shape:%s][Color:%s]\n", name, weight, size, shape.label, color);
+        return String.format("[Name:%s][Weight:%.3f][Size:%d][Shape:%s][Color:%s]", name, weight, size, shape.label, color);
     }
 
 }

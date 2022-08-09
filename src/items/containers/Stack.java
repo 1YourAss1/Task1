@@ -1,5 +1,6 @@
 package items.containers;
 
+import exceptions.ItemAlreadyPlacedException;
 import items.Item;
 import items.Shape;
 import exceptions.ItemStoreException;
@@ -20,19 +21,32 @@ public class Stack extends Container {
     }
 
     @Override
-    public boolean addItem(Item item) throws ItemStoreException {
+    public boolean addItem(Item item) throws ItemStoreException, ItemAlreadyPlacedException {
         if (item.getShape() != Shape.FLAT ) throw new ItemStoreException("Wrong shape for stack: allow only flat");
+
+        if (item.isPlaced()) throw new ItemAlreadyPlacedException("Can't add item, because it is already placed somewhere");
 
         if (countItems <= maxItems) {
             itemList.add(0, item);
             countItems++;
+            item.setPlaced(true);
             return true;
         } else throw new ItemStoreException("Stack is full");
     }
 
     @Override
-    public Item getItem() {
-        return itemList.get(0);
+    public Item getItem() throws ItemStoreException {
+        if (itemList.size() == 0) throw new ItemStoreException("Container is empty");
+
+        Item item = itemList.get(0);
+        itemList.remove(0);
+        item.setPlaced(false);
+
+        return item;
     }
 
+    @Override
+    public void clearContainer() {
+        super.clearContainer();
+    }
 }

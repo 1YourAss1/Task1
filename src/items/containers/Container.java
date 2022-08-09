@@ -17,7 +17,14 @@ public abstract class Container extends Item {
 
     abstract boolean addItem(Item item) throws ItemStoreException, ItemAlreadyPlacedException;
 
-    abstract Item getItem();
+    abstract Item getItem() throws ItemStoreException;
+
+    protected void clearContainer() {
+        for (Item item : itemList) {
+            item.setPlaced(false);
+        }
+        itemList.clear();
+    }
 
     @Override
     public double getWeight() {
@@ -26,7 +33,10 @@ public abstract class Container extends Item {
             totalWeight += item.getWeight();
         }
         return totalWeight;
-
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s[Contains:%d items]", super.toString(), itemList.size());
+    }
 }

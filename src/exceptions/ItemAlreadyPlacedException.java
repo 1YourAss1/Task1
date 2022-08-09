@@ -1,6 +1,6 @@
 package exceptions;
 
-public class ItemAlreadyPlacedException extends Exception{
+public class ItemAlreadyPlacedException extends Exception {
     public ItemAlreadyPlacedException() {}
 
     public ItemAlreadyPlacedException(String s) {
