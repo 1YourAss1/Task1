@@ -35,4 +35,5 @@ public class Brick extends SimpleItem {
         double randId = new Random(seed).nextDouble() * 10;
         return new Brick(name, randId);
     }
+
 }

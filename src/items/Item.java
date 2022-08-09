@@ -47,6 +47,31 @@ public abstract class Item {
 
     public String getColor() { return color; }
 
+    public int getH() {
+        switch (shape) {
+            case SQUARE:
+                return size;
+            case FLAT:
+                return 2;
+            case CIRCLE:
+                return 3;
+            default:
+                throw new IllegalArgumentException("This item has unknown shape, sorry");
+        }
+    }
+    public int getV() {
+        switch (shape) {
+            case SQUARE:
+                return size;
+            case FLAT:
+                return 2;
+            case CIRCLE:
+                return 3;
+            default:
+                throw new IllegalArgumentException("This item has unknown shape, sorry");
+        }
+    }
+
     public boolean isPlaced() {
         return placed;
     }
