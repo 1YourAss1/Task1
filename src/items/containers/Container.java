@@ -5,11 +5,14 @@ import items.Shape;
 import exceptions.ItemAlreadyPlacedException;
 import exceptions.ItemStoreException;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 
 public abstract class Container extends Item {
     protected List<Item> itemList;
+    // protected static Map<Item, Container> itemContainerMap;
 
     protected Container(String name, double weight, int size, Shape shape, String color) {
         super(name, weight, size, shape, color);
