@@ -1,6 +1,10 @@
 package items;
 
-public class SimpleItem extends Item {
+import svg.SVGWriter;
+
+import java.io.IOException;
+
+public abstract class SimpleItem extends Item {
     private static final int LIMIT_SIZE = 5;
 
     protected SimpleItem(String name, double weight, int size, Shape shape, String color) {
@@ -12,4 +16,6 @@ public class SimpleItem extends Item {
             throw new IllegalArgumentException(String.format("Size must be in range 1-%d, not %d", LIMIT_SIZE, size));
         }
     }
+
 }
+

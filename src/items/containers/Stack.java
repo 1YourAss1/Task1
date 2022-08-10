@@ -4,7 +4,9 @@ import exceptions.ItemAlreadyPlacedException;
 import items.Item;
 import items.Shape;
 import exceptions.ItemStoreException;
+import svg.SVGWriter;
 
+import java.io.IOException;
 import java.util.LinkedList;
 
 public class Stack extends Container {
@@ -48,5 +50,10 @@ public class Stack extends Container {
     @Override
     public void clearContainer() {
         super.clearContainer();
+    }
+
+    @Override
+    public void write(int x, int y, SVGWriter svgWriter) throws IOException {
+
     }
 }

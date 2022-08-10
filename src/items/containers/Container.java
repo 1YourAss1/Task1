@@ -8,10 +8,12 @@ import exceptions.ItemStoreException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalDouble;
 
 
 public abstract class Container extends Item {
     protected List<Item> itemList;
+    protected Collection<Item> itemCollection;
     // protected static Map<Item, Container> itemContainerMap;
 
     protected Container(String name, double weight, int size, Shape shape, String color) {
@@ -31,10 +33,15 @@ public abstract class Container extends Item {
 
     @Override
     public double getWeight() {
+//        double totalWeight = this.weight + itemCollection.stream()
+//                .mapToDouble(Item::getWeight)
+//                .sum();
+
         double totalWeight = this.weight;
         for (Item item : itemList) {
             totalWeight += item.getWeight();
         }
+
         return totalWeight;
     }
 

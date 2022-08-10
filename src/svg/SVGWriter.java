@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class SVGWriter extends FileWriter {
+
     public SVGWriter(File file) throws IOException {
         super(file);
     }
@@ -14,51 +15,55 @@ public class SVGWriter extends FileWriter {
     }
 
 
-    public void write() throws IOException {
-        writeHeader();
-        writeReact(10, 10, 100, 50, "yellow", "red");
-        writeRoundReact(10, 70, 100, 50, 30, 30, "green", "red");
-        writeEllipse(80, 200, 50, 50, "yellow", "green");
-        writeText(80, 200, "ellipse");
-        writeFooter();
-    }
-
-    private void writeHeader() throws IOException {
+    public void writeHeader(int w, int h) throws IOException {
         String header = new StringBuilder()
                 .append("<?xml version=\"1.0\"?>\n\n")
-                .append("<svg width=\"300\" height=\"300\" viewBox=\"0 0 300 300\" xmlns=\"http://www.w3.org/2000/svg\">\n\n")
+                .append("<svg width=\"").append(w)
+                .append("\" height=\"").append(h)
+                .append("\" viewBox=\"0 0 ").append(w).append(" ").append(h)
+                .append("\" xmlns=\"http://www.w3.org/2000/svg\">\n\n")
                 .toString();
 
         super.write(header);
     }
 
-    private void writeFooter() throws IOException {
-        String footer = "</svg>";
+    public void writeContainerHeader(int x, int y, int w, int h) throws IOException {
+        String containerHeader = new StringBuilder("<svg ")
+                .append("x=\"").append(x).append("\" ")
+                .append("y=\"").append(y).append("\" ")
+                .append("width=\"").append(w).append("\" ")
+                .append("height=\"").append(h).append("\">\n").toString();
+        super.write(containerHeader);
+    }
+
+    public void writeFooter() throws IOException {
+        String footer = "</svg>\n\n";
         super.write(footer);
     }
 
-    private void writeReact(int x, int y, int w, int h, String fill, String stroke) throws IOException {
-        String react = String.format("<rect x=\"%1$d\" y=\"%2$d\" width=\"%3$d\" height=\"%4$d\" style=\"fill:%5$s;stroke:%6$s\"/>\n\n",
-                x, y, w, h, fill, stroke);
+    public void writeReact(int x, int y, int w, int h, String fill, String stroke, int strokeWidth) throws IOException {
+        String react = String.format("<rect x=\"%1$d\" y=\"%2$d\" width=\"%3$d\" height=\"%4$d\" style=\"fill:%5$s;stroke:%6$s;" +
+                        "stroke-width:%7$dpx\"/>\n",
+                x, y, w, h, fill, stroke, strokeWidth);
         super.write(react);
     }
 
-    private void writeRoundReact(int x, int y, int w, int h, int rx, int ry, String fill, String stroke) throws IOException {
+    public void writeRoundReact(int x, int y, int w, int h, int rx, int ry, String fill, String stroke, int strokeWidth) throws IOException {
         String reactRound = String.format("<rect x=\"%1$d\" y=\"%2$d\" width=\"%3$d\" height=\"%4$d\" rx=\"%5$d\" ry=\"%6$d\" " +
-                        "style=\"fill:%7$s;stroke:%8$s\"/>\n\n",
-                x, y, w, h, rx, ry, fill, stroke);
+                        "style=\"fill:%7$s;stroke:%8$s;stroke-width:%9$dpx\"/>\n",
+                x, y, w, h, rx, ry, fill, stroke, strokeWidth);
         super.write(reactRound);
     }
 
-    private void writeEllipse(int cx, int cy, int rx, int ry, String fill, String stroke) throws IOException {
+    public void writeEllipse(int cx, int cy, int rx, int ry, String fill, String stroke, int strokeWidth) throws IOException {
         String ellipse = String.format("<ellipse cx=\"%1$d\" cy=\"%2$d\" rx=\"%3$d\" ry=\"%4$d\" style=\"fill:%5$s;stroke:%6$s;" +
-                        "stroke-width:5px\"/>\n\n",
-                cx, cy, rx, ry, fill, stroke);
+                        "stroke-width:%7$dpx\"/>\n",
+                cx, cy, rx, ry, fill, stroke, strokeWidth);
         super.write(ellipse);
     }
 
-    private void writeText(int x, int y, String text) throws IOException {
-        text = String.format("<text x=\"%1$d\" y=\"%2$d\">%3$s</text>",
+    public void writeText(int x, int y, String text) throws IOException {
+        text = String.format("<text x=\"%1$d\" y=\"%2$d\" dominant-baseline=\"central\" text-anchor=\"middle\">%3$s</text>\n",
                 x, y, text);
         super.write(text);
     }

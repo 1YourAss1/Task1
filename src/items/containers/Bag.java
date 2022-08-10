@@ -4,16 +4,20 @@ import items.Item;
 import items.Shape;
 import exceptions.ItemAlreadyPlacedException;
 import exceptions.ItemStoreException;
+import svg.SVGWriter;
+
+import java.io.IOException;
 
 public class Bag extends WideContainer {
-    private static final Shape defShape = Shape.CIRCLE;
+    private static final Shape DEFAULT_SHAPE = Shape.SQUARE;
+    private static final String DEFAULT_COLOR = "slategrey";
 
     public Bag(String name, double weight, int size) {
-        super(name, weight, size, defShape);
+        super(name, weight, size, DEFAULT_SHAPE, DEFAULT_COLOR);
     }
 
     public Bag(String name, double maxWeight, double weight, int size) {
-        super(name, maxWeight, weight, size, defShape);
+        super(name, maxWeight, weight, size, DEFAULT_SHAPE, DEFAULT_COLOR);
     }
 
 
@@ -36,5 +40,21 @@ public class Bag extends WideContainer {
     @Override
     public void clearContainer() {
         super.clearContainer();
+    }
+
+    @Override
+    public void write(int x, int y, SVGWriter svgWriter) throws IOException {
+        svgWriter.writeContainerHeader(x, y, this.getV() + PADDING * 2, this.getH() + PADDING * 3);
+
+        svgWriter.write("\t");
+        int containerX = x + PADDING; int containerY = y + PADDING;
+        svgWriter.writeRoundReact(containerX, containerY, this.getV(), this.getH(), 50, 50, this.getColor(), "black", 5);
+
+        svgWriter.write("\t");
+        int centerX = (int) Math.round(containerX + this.getV() * 0.5);
+        int centerY = Math.round(containerY + this.getH()) + 14;
+        svgWriter.writeText(centerX, centerY, this.getName());
+
+        svgWriter.writeFooter();
     }
 }

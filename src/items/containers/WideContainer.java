@@ -4,22 +4,24 @@ import items.Item;
 import items.Shape;
 import exceptions.ItemAlreadyPlacedException;
 import exceptions.ItemStoreException;
+import svg.SVGWriter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class WideContainer extends Container {
-    private static final String defColor = "Grey";
+public abstract class WideContainer extends Container {
     private final double maxWeight;
+    public static final int PADDING = 15;
 
-    protected WideContainer(String name, double maxWeight, double weight, int size, Shape shape) {
-        super(name, weight, size, shape, defColor);
+    protected WideContainer(String name, double maxWeight, double weight, int size, Shape shape, String color) {
+        super(name, weight, size, shape, color);
         this.maxWeight = maxWeight;
         itemList = new ArrayList<>();
     }
 
-    protected WideContainer(String name, double weight, int size, Shape shape) {
-        super(name, weight, size, shape, defColor);
+    protected WideContainer(String name, double weight, int size, Shape shape, String color) {
+        super(name, weight, size, shape, color);
         this.maxWeight = 50;
         itemList = new ArrayList<>();
     }
@@ -65,4 +67,6 @@ public class WideContainer extends Container {
     protected void clearContainer() {
         super.clearContainer();
     }
+
+
 }

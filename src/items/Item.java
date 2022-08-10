@@ -2,8 +2,13 @@ package items;
 
 
 import items.containers.Container;
+import svg.SVGWriter;
+
+import java.io.IOException;
 
 public abstract class Item {
+    private static final int SCALE = 50;
+
     private final String name;
     protected final double weight; // >0
     protected int size; // 1-5
@@ -47,30 +52,32 @@ public abstract class Item {
 
     public String getColor() { return color; }
 
-    public int getH() {
-        switch (shape) {
-            case SQUARE:
-                return size;
-            case FLAT:
-                return 2;
-            case CIRCLE:
-                return 3;
-            default:
-                throw new IllegalArgumentException("This item has unknown shape, sorry");
-        }
-    }
     public int getV() {
         switch (shape) {
             case SQUARE:
-                return size;
+                return size * SCALE;
             case FLAT:
-                return 2;
+                return size * SCALE * 2;
             case CIRCLE:
-                return 3;
+                return (int) Math.round(size * SCALE * 0.5);
             default:
                 throw new IllegalArgumentException("This item has unknown shape, sorry");
         }
     }
+    public int getH() {
+        switch (shape) {
+            case SQUARE:
+                return size * SCALE;
+            case FLAT:
+                return (int) Math.round(size * SCALE * 0.5);
+            case CIRCLE:
+                return (int) Math.round(size * SCALE * 0.5);
+            default:
+                throw new IllegalArgumentException("This item has unknown shape, sorry");
+        }
+    }
+
+    protected abstract void write(int x, int y, SVGWriter svgWriter) throws IOException;
 
     public boolean isPlaced() {
         return placed;

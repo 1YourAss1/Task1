@@ -1,12 +1,15 @@
 package items;
 
 
+import svg.SVGWriter;
+
+import java.io.IOException;
 import java.util.Random;
 
 public class Brick extends SimpleItem {
-    private static final Shape defShape = Shape.SQUARE;
-    private static final int defSize = 2;
-    private static final String defColor = "Red";
+    private static final Shape DEFAULT_SHAPE = Shape.SQUARE;
+    private static final int DEFAULT_SIZE = 2;
+    private static final String DEFAULT_COLOR = "red";
 
 
     public Brick(String name, double weight, int size, Shape shape, String color) {
@@ -14,14 +17,14 @@ public class Brick extends SimpleItem {
     }
 
     public Brick(String name, double weight, int size, String color) {
-        super(name, weight, size, defShape, color);
+        super(name, weight, size, DEFAULT_SHAPE, color);
     }
     public Brick(String name, double weight, String color) {
-        super(name, weight, defSize, defShape, color);
+        super(name, weight, DEFAULT_SIZE, DEFAULT_SHAPE, color);
     }
 
     public Brick(String name, double weight) {
-        super(name, weight, defSize, defShape, defColor);
+        super(name, weight, DEFAULT_SIZE, DEFAULT_SHAPE, DEFAULT_COLOR);
     }
 
 
@@ -36,4 +39,11 @@ public class Brick extends SimpleItem {
         return new Brick(name, randId);
     }
 
+    @Override
+    public void write(int x, int y, SVGWriter svgWriter) throws IOException {
+        svgWriter.writeReact(x, y, this.getV(), this.getH(), this.getColor(), "black", 1);
+        int centerX = (int) Math.round(x + this.getV() * 0.5);
+        int centerY = (int) Math.round(y + this.getH() * 0.5) + 4;
+        svgWriter.writeText(centerX, centerY, this.getName());
+    }
 }
