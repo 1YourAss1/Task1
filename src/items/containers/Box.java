@@ -7,6 +7,7 @@ import exceptions.ItemStoreException;
 import svg.SVGWriter;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class Box extends WideContainer {
     private static final Shape DEFAULT_SHAPE = Shape.FLAT;
@@ -40,19 +41,5 @@ public class Box extends WideContainer {
         super.clearContainer();
     }
 
-    @Override
-    public void write(int x, int y, SVGWriter svgWriter) throws IOException {
-        svgWriter.writeContainerHeader(x, y, this.getV() + PADDING * 2, this.getH() + PADDING * 3);
 
-        svgWriter.write("\t");
-        int containerX = x + PADDING; int containerY = y + PADDING;
-        svgWriter.writeReact(containerX, containerY, this.getV(), this.getH(), this.getColor(), "black", 5);
-
-        svgWriter.write("\t");
-        int centerX = (int) Math.round(containerX + this.getV() * 0.5);
-        int centerY = Math.round(containerY + this.getH()) + 14;
-        svgWriter.writeText(centerX, centerY, this.getName());
-
-        svgWriter.writeFooter();
-    }
 }

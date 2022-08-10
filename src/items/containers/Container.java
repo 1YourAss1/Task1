@@ -13,8 +13,8 @@ import java.util.OptionalDouble;
 
 public abstract class Container extends Item {
     protected List<Item> itemList;
-    protected Collection<Item> itemCollection;
-    // protected static Map<Item, Container> itemContainerMap;
+//    protected Collection<Item> itemCollection; // getWeight whit stream
+    // protected static Map<Item, Container> itemContainerMap; // immutable setPlaced
 
     protected Container(String name, double weight, int size, Shape shape, String color) {
         super(name, weight, size, shape, color);

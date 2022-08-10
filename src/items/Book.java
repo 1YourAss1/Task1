@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.util.Random;
 
 public class Book extends SimpleItem {
-    private static final Shape defShape = Shape.FLAT;
-    private static final String defColor = "white";
+    private static final Shape DEFAULT_SHAPE = Shape.FLAT;
+    private static final String DEFAULT_COLOR = "oldlace";
 
     public Book(String name, double weight, int size) {
-        super(name, weight, size, defShape, defColor);
+        super(name, weight, size, DEFAULT_SHAPE, DEFAULT_COLOR);
     }
 
 
@@ -29,9 +29,11 @@ public class Book extends SimpleItem {
 
     @Override
     public void write(int x, int y, SVGWriter svgWriter) throws IOException {
+        svgWriter.write("\t\t");
         svgWriter.writeReact(x, y, this.getV(), this.getH(), this.getColor(), "black", 1);
         int centerX = (int) Math.round(x + this.getV() * 0.5);
         int centerY = (int) Math.round(y + this.getH() * 0.5) + 4;
+        svgWriter.write("\t\t");
         svgWriter.writeText(centerX, centerY, this.getName());
     }
 }

@@ -1,3 +1,5 @@
+import exceptions.ItemAlreadyPlacedException;
+import exceptions.ItemStoreException;
 import items.Ball;
 import items.Book;
 import items.Brick;
@@ -12,33 +14,38 @@ import java.util.function.Predicate;
 
 public class Main {
     public static void main(String[] args) {
-        Brick brick = new Brick("brick",5.5, 1,"red");
+        Brick brick1 = new Brick("brick1",5.5, 1,"indianred");
+        Brick brick2 = new Brick("brick2",5.5, 1, "indianred");
 
-        Book book = new Book("book", 0.5, 1);
+        Book book1 = new Book("book1", 2.5, 1);
+        Book book2 = new Book("book2", 1.5, 1);
 
-        Ball ball = new Ball("ball", 3.0, 1, "blue");
+        Ball ball1 = new Ball("ball1", 3.0, 1, "cornflowerblue");
+        Ball ball2 = new Ball("ball2", 3.0, 1, "cornflowerblue");
 
-        Box box = new Box("Box", 10.0, 0.5, 5);
-
-        Bag bag = new Bag("Bag", 15.0, 1.0, 5);
+        Bag bag = new Bag("Bag", 20.0, 1.0, 25);
+        Box box = new Box("Box", 20.0, 0.5, 5);
 
         File svgFile = new File("items.svg");
 
         try (SVGWriter svgWriter = new SVGWriter(svgFile)) {
-            svgWriter.writeHeader(2000, 1000);
+            svgWriter.writeHeader(5000, 2500);
 
+            box.addItem(brick1);
+            box.addItem(book1);
+            box.addItem(ball1);
+
+            bag.addItem(brick2);
+            bag.addItem(book2);
+            bag.addItem(ball2);
+            bag.addItem(box);
 
             bag.write(10, 10, svgWriter);
-            box.write(10, 200, svgWriter);
-
-//            brick.write(0, 0, svgWriter);
-//
-//            book.write(50, 50, svgWriter);
-//
-//            ball.write(100, 100, svgWriter);
 
             svgWriter.writeFooter();
 //            Desktop.getDesktop().open(svgFile);
+        } catch (ItemStoreException | ItemAlreadyPlacedException e) {
+            throw new RuntimeException(e);
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }

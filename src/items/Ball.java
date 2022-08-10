@@ -36,8 +36,11 @@ public class Ball extends SimpleItem {
 
     @Override
     public void write(int x, int y, SVGWriter svgWriter) throws IOException {
-        svgWriter.writeEllipse(x, y, this.getV(), this.getH(), this.getColor(), "black", 1);
-        svgWriter.writeText(x, y + 4, this.getName());
+        int excenterX = x + this.getV(), excenterY = y + this.getH();
+        svgWriter.write("\t\t");
+        svgWriter.writeEllipse(excenterX, excenterY, this.getV(), this.getH(), this.getColor(), "black", 1);
+        svgWriter.write("\t\t");
+        svgWriter.writeText(excenterX, excenterY + 4, this.getName());
     }
 
 }

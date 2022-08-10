@@ -59,7 +59,7 @@ public abstract class Item {
             case FLAT:
                 return size * SCALE * 2;
             case CIRCLE:
-                return (int) Math.round(size * SCALE * 0.5);
+                return (int) Math.round(size * SCALE / (Math.sqrt(Math.PI)));
             default:
                 throw new IllegalArgumentException("This item has unknown shape, sorry");
         }
@@ -71,13 +71,13 @@ public abstract class Item {
             case FLAT:
                 return (int) Math.round(size * SCALE * 0.5);
             case CIRCLE:
-                return (int) Math.round(size * SCALE * 0.5);
+                return (int) Math.round(size * SCALE / (Math.sqrt(Math.PI)));
             default:
                 throw new IllegalArgumentException("This item has unknown shape, sorry");
         }
     }
 
-    protected abstract void write(int x, int y, SVGWriter svgWriter) throws IOException;
+    public abstract void write(int x, int y, SVGWriter svgWriter) throws IOException;
 
     public boolean isPlaced() {
         return placed;

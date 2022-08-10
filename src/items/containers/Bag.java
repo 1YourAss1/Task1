@@ -42,19 +42,4 @@ public class Bag extends WideContainer {
         super.clearContainer();
     }
 
-    @Override
-    public void write(int x, int y, SVGWriter svgWriter) throws IOException {
-        svgWriter.writeContainerHeader(x, y, this.getV() + PADDING * 2, this.getH() + PADDING * 3);
-
-        svgWriter.write("\t");
-        int containerX = x + PADDING; int containerY = y + PADDING;
-        svgWriter.writeRoundReact(containerX, containerY, this.getV(), this.getH(), 50, 50, this.getColor(), "black", 5);
-
-        svgWriter.write("\t");
-        int centerX = (int) Math.round(containerX + this.getV() * 0.5);
-        int centerY = Math.round(containerY + this.getH()) + 14;
-        svgWriter.writeText(centerX, centerY, this.getName());
-
-        svgWriter.writeFooter();
-    }
 }
