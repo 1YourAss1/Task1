@@ -16,7 +16,7 @@ public class Book extends SimpleItem {
 
     public static Book createRandomWeightBook(String name) {
         double randWeight = new Random().nextDouble() * 10;
-        int randSize = new Random().nextInt(5);
+        int randSize = new Random().nextInt(4) + 1;
         return new Book(name, randWeight, randSize);
     }
 

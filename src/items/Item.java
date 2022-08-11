@@ -59,7 +59,7 @@ public abstract class Item {
             case FLAT:
                 return size * SCALE * 2;
             case CIRCLE:
-                return (int) Math.round(size * SCALE / (Math.sqrt(Math.PI)));
+                return (int) Math.round(size * SCALE / (Math.sqrt(Math.PI))) * 2;
             default:
                 throw new IllegalArgumentException("This item has unknown shape, sorry");
         }
@@ -71,7 +71,7 @@ public abstract class Item {
             case FLAT:
                 return (int) Math.round(size * SCALE * 0.5);
             case CIRCLE:
-                return (int) Math.round(size * SCALE / (Math.sqrt(Math.PI)));
+                return (int) Math.round(size * SCALE / (Math.sqrt(Math.PI))) * 2;
             default:
                 throw new IllegalArgumentException("This item has unknown shape, sorry");
         }

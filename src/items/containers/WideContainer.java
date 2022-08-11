@@ -96,8 +96,8 @@ public class WideContainer extends Container {
         svgWriter.writeText(centerX, centerY, this.getName());
         // Write all items with random coordinates in wide-container
         for (Item item : itemList) {
-            int randX = new Random().nextInt(this.getV() - item.getV()*2 - PADDING) + x + PADDING;
-            int randY = new Random().nextInt(this.getH() - item.getH()* 2 - PADDING) + y + PADDING;
+            int randX = new Random().nextInt(this.getV() - item.getV() - PADDING) + x + PADDING;
+            int randY = new Random().nextInt(this.getH() - item.getH() - PADDING) + y + PADDING;
             svgWriter.write("\n");
             item.write(randX, randY, svgWriter);
             svgWriter.write("\n");
