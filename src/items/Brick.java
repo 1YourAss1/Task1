@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Brick extends SimpleItem {
     private static final Shape DEFAULT_SHAPE = Shape.SQUARE;
-    private static final int DEFAULT_SIZE = 2;
+    private static final int DEFAULT_SIZE = 1;
     private static final String DEFAULT_COLOR = "red";
 
 
@@ -42,8 +42,8 @@ public class Brick extends SimpleItem {
     @Override
     public void write(int x, int y, SVGWriter svgWriter) throws IOException {
         svgWriter.write("\t\t");
-        svgWriter.writeReact(x, y, this.getV(), this.getH(), this.getColor(), "black", 1);
-        int centerX = (int) Math.round(x + this.getV() * 0.5);
+        svgWriter.writeReact(x, y, this.getW(), this.getH(), this.getColor(), "black", 1);
+        int centerX = (int) Math.round(x + this.getW() * 0.5);
         int centerY = (int) Math.round(y + this.getH() * 0.5) + 4;
         svgWriter.write("\t\t");
         svgWriter.writeText(centerX, centerY, this.getName());

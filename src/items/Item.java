@@ -1,13 +1,12 @@
 package items;
 
 
-import items.containers.Container;
 import svg.SVGWriter;
 
 import java.io.IOException;
 
 public abstract class Item {
-    private static final int SCALE = 50;
+    private static final int SCALE = 100;
 
     private final String name;
     protected final double weight; // >0
@@ -52,14 +51,14 @@ public abstract class Item {
 
     public String getColor() { return color; }
 
-    public int getV() {
+    public int getW() {
         switch (shape) {
             case SQUARE:
-                return size * SCALE;
+                return Math.round(size * SCALE);
             case FLAT:
-                return size * SCALE * 2;
+                return (int) Math.round(size * SCALE * 2.0);
             case CIRCLE:
-                return (int) Math.round(size * SCALE / (Math.sqrt(Math.PI))) * 2;
+                return (int) Math.round(size * SCALE / Math.PI) * 2;
             default:
                 throw new IllegalArgumentException("This item has unknown shape, sorry");
         }
@@ -67,11 +66,11 @@ public abstract class Item {
     public int getH() {
         switch (shape) {
             case SQUARE:
-                return size * SCALE;
+                return Math.round(size * SCALE);
             case FLAT:
-                return (int) Math.round(size * SCALE * 0.5);
+                return (int) Math.round(size * SCALE / 2.0);
             case CIRCLE:
-                return (int) Math.round(size * SCALE / (Math.sqrt(Math.PI))) * 2;
+                return (int) Math.round(size * SCALE / Math.PI) * 2;
             default:
                 throw new IllegalArgumentException("This item has unknown shape, sorry");
         }

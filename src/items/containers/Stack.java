@@ -8,16 +8,18 @@ import svg.SVGWriter;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.OptionalInt;
 
 public class Stack extends Container {
 
-    private static final Shape defShape = Shape.SQUARE;
-    private static final String defColor = "Grey";
+    private static final Shape DEFAULT_SHAPE = Shape.SQUARE;
+    private static final String DEFAULT_COLOR = "Grey";
     private static final int maxItems = 10;
     private int countItems;
+    private int W, H;
 
     public Stack(String name, double weight, int size) {
-        super(name, weight, size, defShape, defColor);
+        super(name, weight, size, DEFAULT_SHAPE, DEFAULT_COLOR);
         itemList = new LinkedList<>();
         countItems = 0;
     }
@@ -53,7 +55,31 @@ public class Stack extends Container {
     }
 
     @Override
-    public void write(int x, int y, SVGWriter svgWriter) throws IOException {
+    public int getW() {
+        return W;
+    }
 
+    @Override
+    public int getH() {
+        return H;
+    }
+
+    @Override
+    public void write(int x, int y, SVGWriter svgWriter) throws IOException {
+        int stackCenterX;
+        OptionalInt optionalMaxInt = itemList.stream().mapToInt(Item::getW).max();
+        if (optionalMaxInt.isPresent()) {
+            W = optionalMaxInt.getAsInt();
+            stackCenterX = (W / 2) + PADDING;
+        } else stackCenterX = x;
+
+        int stackY = y + PADDING;
+
+        for (Item item : itemList) {
+            item.write(stackCenterX - (item.getW() / 2), stackY, svgWriter);
+            stackY += item.getH();
+        }
+
+        H = stackY;
     }
 }

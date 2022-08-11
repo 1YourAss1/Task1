@@ -12,6 +12,7 @@ import java.util.OptionalDouble;
 
 
 public abstract class Container extends Item {
+    public static final int PADDING = 15;
     protected List<Item> itemList;
 //    protected Collection<Item> itemCollection; // getWeight whit stream
     // protected static Map<Item, Container> itemContainerMap; // immutable setPlaced

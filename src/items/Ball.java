@@ -6,26 +6,30 @@ import java.io.IOException;
 import java.util.Random;
 
 public class Ball extends SimpleItem {
-    private static final Shape defShape = Shape.CIRCLE;
-    private static final int defSize = 3;
-    private static final String defColor = "blue";
+    private static final Shape DEFAULT_SHAPE = Shape.CIRCLE;
+    private static final int DEFAULT_SIZE = 1;
+    private static final String DEFAULT_COLOR = "blue";
 
     public Ball(String name, double weight, int size, String color) {
-        super(name, weight, size, defShape, color);
+        super(name, weight, size, DEFAULT_SHAPE, color);
     }
 
     public Ball(String name, double weight, String color) {
-        super(name, weight, defSize, defShape, color);
+        super(name, weight, DEFAULT_SIZE, DEFAULT_SHAPE, color);
+    }
+
+    public Ball(String name, double weight, int size) {
+        super(name, weight, size, DEFAULT_SHAPE, DEFAULT_COLOR);
     }
 
     public Ball(String name, double weight) {
-        super(name, weight, defSize, defShape, defColor);
+        super(name, weight, DEFAULT_SIZE, DEFAULT_SHAPE, DEFAULT_COLOR);
     }
 
 
     public static Ball createRandomWeightBall(String name, int size, String color) {
         double randId = new Random().nextDouble() * 10;
-        return new Ball(name, randId);
+        return new Ball(name, randId, size);
     }
 
     // For test
@@ -36,7 +40,7 @@ public class Ball extends SimpleItem {
 
     @Override
     public void write(int x, int y, SVGWriter svgWriter) throws IOException {
-        int radiusX = this.getV() / 2;
+        int radiusX = this.getW() / 2;
         int radiusY = this.getH() / 2;
         int excenterX = x + radiusX, excenterY = y + radiusY;
 
