@@ -16,13 +16,13 @@ public class WideContainer extends Container {
     protected WideContainer(String name, double maxWeight, double weight, int size, Shape shape, String color) {
         super(name, weight, size, shape, color);
         this.maxWeight = maxWeight;
-        itemList = new ArrayList<>();
+        itemCollection = new ArrayList<>();
     }
 
     protected WideContainer(String name, double weight, int size, Shape shape, String color) {
         super(name, weight, size, shape, color);
         this.maxWeight = 50;
-        itemList = new ArrayList<>();
+        itemCollection = new ArrayList<>();
     }
 
 
@@ -30,11 +30,17 @@ public class WideContainer extends Container {
     protected boolean addItem(Item item) throws ItemStoreException, ItemAlreadyPlacedException {
         if (item == this) throw new ItemStoreException("Container cannot be placed inside itself");
 
-        if (item.isPlaced()) throw new ItemAlreadyPlacedException("Can't add item, because it is already placed somewhere");
+        if (Container.itemContainerMap.containsKey(item))
+            throw new ItemAlreadyPlacedException(String.format(
+                    "Can't add item \"%s\", because it is already placed in container \"%s\"",
+                    item.getName(),
+                    itemContainerMap.get(item)
+            ));
 
         if ((weight + item.getWeight()) < maxWeight) {
-            itemList.add(item);
-            item.setPlaced(true);
+            itemCollection.add(item);
+            Container.itemContainerMap.put(item, this);
+
             return true;
         } else {
             throw new ItemStoreException(String.format("Out of max weight (%.2f)", maxWeight));
@@ -43,19 +49,19 @@ public class WideContainer extends Container {
 
     @Override
     protected Item getItem() throws ItemStoreException {
-        if (itemList.size() == 0) throw new ItemStoreException("Container is empty");
+        if (itemCollection.size() == 0) throw new ItemStoreException("Container is empty");
 
-        int randomIndex = new Random().nextInt(itemList.size());
-        Item item = itemList.get(randomIndex);
-        itemList.remove(randomIndex);
-        item.setPlaced(false);
+        int randomIndex = new Random().nextInt(itemCollection.size());
+        Item item = itemCollection.get(randomIndex);
+        itemCollection.remove(randomIndex);
+        Container.itemContainerMap.remove(item);
 
         return item;
     }
 
     protected int findItemByName(String itemNameToFind) {
-        for (int i = 0; i < itemList.size(); i++) {
-            if (itemList.get(i).getName().equals(itemNameToFind)) {
+        for (int i = 0; i < itemCollection.size(); i++) {
+            if (itemCollection.get(i).getName().equals(itemNameToFind)) {
                 return i;
             }
         }
@@ -92,7 +98,7 @@ public class WideContainer extends Container {
         int itemY = y + PADDING;
         int maxLineItemH = 0;
 
-        for (Item item : itemList) {
+        for (Item item : itemCollection) {
             // Check right border
             if ((itemX + item.getW()) >= this.getW()) {
                 itemX = x + PADDING;

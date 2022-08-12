@@ -13,14 +13,14 @@ import java.util.OptionalInt;
 public class Stack extends Container {
 
     private static final Shape DEFAULT_SHAPE = Shape.NON;
-    private static final String DEFAULT_COLOR = "Grey";
-    private static final int maxItems = 10;
+    private static final String DEFAULT_COLOR = " ";
+    private static final int MAX_ITEMS = 10;
     private int countItems;
     private int W, H;
 
     public Stack(String name, double weight, int size) {
         super(name, weight, size, DEFAULT_SHAPE, DEFAULT_COLOR);
-        itemList = new LinkedList<>();
+        itemCollection = new LinkedList<>();
         countItems = 0;
     }
 
@@ -28,23 +28,27 @@ public class Stack extends Container {
     public boolean addItem(Item item) throws ItemStoreException, ItemAlreadyPlacedException {
         if (item.getShape() != Shape.FLAT ) throw new ItemStoreException("Wrong shape for stack: allow only flat");
 
-        if (item.isPlaced()) throw new ItemAlreadyPlacedException("Can't add item, because it is already placed somewhere");
+        if (Container.itemContainerMap.containsKey(item))
+            throw new ItemAlreadyPlacedException(String.format(
+                    "Can't add item \"%s\", because it is already placed in container \"%s\"",
+                    item.getName(),
+                    Container.itemContainerMap.get(item)));
 
-        if (countItems <= maxItems) {
-            itemList.add(0, item);
+        if (countItems <= MAX_ITEMS) {
+            itemCollection.add(0, item);
             countItems++;
-            item.setPlaced(true);
+            Container.itemContainerMap.put(item, this);
             return true;
         } else throw new ItemStoreException("Stack is full");
     }
 
     @Override
     public Item getItem() throws ItemStoreException {
-        if (itemList.size() == 0) throw new ItemStoreException("Container is empty");
+        if (itemCollection.size() == 0) throw new ItemStoreException("Container is empty");
 
-        Item item = itemList.get(0);
-        itemList.remove(0);
-        item.setPlaced(false);
+        Item item = itemCollection.get(0);
+        itemCollection.remove(0);
+        Container.itemContainerMap.remove(item);
 
         return item;
     }
@@ -67,7 +71,7 @@ public class Stack extends Container {
     @Override
     public void write(int x, int y, SVGWriter svgWriter) throws IOException {
         int stackCenterX;
-        OptionalInt optionalMaxInt = itemList.stream().mapToInt(Item::getW).max();
+        OptionalInt optionalMaxInt = itemCollection.stream().mapToInt(Item::getW).max();
         if (optionalMaxInt.isPresent()) {
             this.W = optionalMaxInt.getAsInt();
             stackCenterX = (this.W / 2) + PADDING;
@@ -75,7 +79,7 @@ public class Stack extends Container {
 
         int stackY = y + PADDING;
 
-        for (Item item : itemList) {
+        for (Item item : itemCollection) {
             item.write(stackCenterX - (item.getW() / 2), stackY, svgWriter);
             stackY += item.getH() + PADDING;
         }

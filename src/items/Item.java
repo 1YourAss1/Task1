@@ -13,7 +13,6 @@ public abstract class Item {
     protected int size; // 1-5
     private final Shape shape;
     private final String color;
-    private boolean placed;
 
     protected Item(String name, double weight, int size, Shape shape, String color) {
         this.size = size;
@@ -37,8 +36,6 @@ public abstract class Item {
         } else {
             throw new IllegalArgumentException("Color can't be empty");
         }
-
-        this.placed = false;
     }
 
     public String getName() { return name; }
@@ -77,14 +74,6 @@ public abstract class Item {
     }
 
     public abstract void write(int x, int y, SVGWriter svgWriter) throws IOException;
-
-    public boolean isPlaced() {
-        return placed;
-    }
-
-    public void setPlaced(boolean placed) {
-        this.placed = placed;
-    }
 
     @Override
     public String toString() {

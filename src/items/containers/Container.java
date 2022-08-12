@@ -5,17 +5,13 @@ import items.Shape;
 import exceptions.ItemAlreadyPlacedException;
 import exceptions.ItemStoreException;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.OptionalDouble;
+import java.util.*;
 
 
 public abstract class Container extends Item {
+    protected final static Map<Item, Container> itemContainerMap = new HashMap<>(); // immutable setPlaced
     public static final int PADDING = 15;
-    protected List<Item> itemList;
-//    protected Collection<Item> itemCollection; // getWeight whit stream
-    // protected static Map<Item, Container> itemContainerMap; // immutable setPlaced
+    protected List<Item> itemCollection;
 
     protected Container(String name, double weight, int size, Shape shape, String color) {
         super(name, weight, size, shape, color);
@@ -26,28 +22,21 @@ public abstract class Container extends Item {
     abstract Item getItem() throws ItemStoreException;
 
     protected void clearContainer() {
-        for (Item item : itemList) {
-            item.setPlaced(false);
+        for (Item item : itemCollection) {
+            Container.itemContainerMap.remove(item);
         }
-        itemList.clear();
+        itemCollection.clear();
     }
 
     @Override
     public double getWeight() {
-//        double totalWeight = this.weight + itemCollection.stream()
-//                .mapToDouble(Item::getWeight)
-//                .sum();
-
-        double totalWeight = this.weight;
-        for (Item item : itemList) {
-            totalWeight += item.getWeight();
-        }
-
-        return totalWeight;
+        return itemCollection.stream()
+                .mapToDouble(Item::getWeight)
+                .reduce(this.weight, Double::sum);
     }
 
     @Override
     public String toString() {
-        return String.format("%s[Contains:%d items]", super.toString(), itemList.size());
+        return String.format("%s[Contains:%d items]", super.toString(), itemCollection.size());
     }
 }

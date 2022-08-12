@@ -1,9 +1,5 @@
 package items;
 
-import svg.SVGWriter;
-
-import java.io.IOException;
-
 public abstract class SimpleItem extends Item {
     private static final int LIMIT_SIZE = 5;
 
