@@ -3,7 +3,8 @@ package items;
 public enum Shape {
     SQUARE("Square"),
     CIRCLE("Circle"),
-    FLAT("Flat");
+    FLAT("Flat"),
+    NON("");
 
     public final String label;
 

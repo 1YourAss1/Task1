@@ -12,7 +12,7 @@ import java.util.OptionalInt;
 
 public class Stack extends Container {
 
-    private static final Shape DEFAULT_SHAPE = Shape.SQUARE;
+    private static final Shape DEFAULT_SHAPE = Shape.NON;
     private static final String DEFAULT_COLOR = "Grey";
     private static final int maxItems = 10;
     private int countItems;
@@ -69,17 +69,17 @@ public class Stack extends Container {
         int stackCenterX;
         OptionalInt optionalMaxInt = itemList.stream().mapToInt(Item::getW).max();
         if (optionalMaxInt.isPresent()) {
-            W = optionalMaxInt.getAsInt();
-            stackCenterX = (W / 2) + PADDING;
+            this.W = optionalMaxInt.getAsInt();
+            stackCenterX = (this.W / 2) + PADDING;
         } else stackCenterX = x;
 
         int stackY = y + PADDING;
 
         for (Item item : itemList) {
             item.write(stackCenterX - (item.getW() / 2), stackY, svgWriter);
-            stackY += item.getH();
+            stackY += item.getH() + PADDING;
         }
 
-        H = stackY;
+        this.H = stackY;
     }
 }

@@ -90,8 +90,28 @@ public class WideContainer extends Container {
         // Write all items in wide-container
         int itemX = x + PADDING;
         int itemY = y + PADDING;
-        int maxItemH = 0;
+        int maxLineItemH = 0;
+
         for (Item item : itemList) {
+            // Check right border
+            if ((itemX + item.getW()) >= this.getW()) {
+                itemX = x + PADDING;
+                itemY += maxLineItemH + PADDING;
+                maxLineItemH = 0;
+            }
+            // Check bottom border
+            if ((itemY + item.getH()) >= this.getH()) {
+                System.out.printf("%s does not fit", item.getName());
+                continue;
+            }
+            // Write item
+            svgWriter.write("\n");
+            item.write(itemX, itemY, svgWriter);
+            svgWriter.write("\n");
+            // Edit aux variables
+            maxLineItemH = Math.max(item.getH(), maxLineItemH);
+            itemX += item.getW() + PADDING;
+//            ----- RANDOM -----
 //            int randX, randY;
 //            if ((this.getV() - item.getV() - PADDING) >= 0 && (this.getH() - item.getH() - PADDING) >= 0) {
 //                randX = new Random().nextInt(this.getV() - item.getV() - PADDING) + x + PADDING;
@@ -101,22 +121,7 @@ public class WideContainer extends Container {
 //                continue;
 //            }
 //            item.write(randX, randY, svgWriter);
-            maxItemH = Math.max(item.getH(), maxItemH);
-            if (item instanceof Stack) System.out.println(getH());
-            if ((itemX + item.getW()) >= this.getW()) {
-                itemX = x + PADDING;
-                itemY += maxItemH + PADDING;
-            }
-
-            if ((itemY + item.getH()) >= this.getH()) {
-                continue;
-            }
-
-            svgWriter.write("\n");
-            item.write(itemX, itemY, svgWriter);
-            svgWriter.write("\n");
-
-            itemX += item.getW() + PADDING;
+//            ----- RANDOM -----
         }
     }
 
