@@ -3,23 +3,13 @@ import exceptions.ItemStoreException;
 import items.Ball;
 import items.Book;
 import items.Brick;
-import items.Item;
 import items.containers.Bag;
 import items.containers.Box;
 import items.containers.Stack;
-import svg.SVGWriter;
-
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class Main {
     public static void main(String[] args) {
-        Collection<Item> linkedList = new LinkedList<>();
-
-        ItemSystem itemSystem = new ItemSystem();
+       ItemSystem itemSystem = new ItemSystem();
 
         Bag bag = new Bag("Bag", 1000.0, 1.0, 20);
         Box box = new Box("Box", 1000.0, 0.5, 7);
